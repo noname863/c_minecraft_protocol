@@ -22,7 +22,15 @@ foreach(RECIPE ${CONAN_RECIPES})
     execute_process(COMMAND conan export ${RECIPE})
 endforeach()
 
-set(CMAKE_CXX_STANDARD 20)
+# to have full c++20 with msvc, it is needed to specify c++-latest as standard.
+# in order to specify c++-latest to cmake, it is needed to set CMAKE_CXX_STANDARD to 23
+# info in issue
+# https://github.com/microsoft/STL/issues/1814#issuecomment-845572895
+if (MSVC)
+    set(CMAKE_CXX_STANDARD 23)
+else()
+    set(CMAKE_CXX_STANDARD 20)
+endif()
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # download conan.cmake if it is not exists
