@@ -22,17 +22,6 @@ foreach(RECIPE ${CONAN_RECIPES})
     execute_process(COMMAND conan export ${RECIPE})
 endforeach()
 
-# to have full c++20 with msvc, it is needed to specify c++-latest as standard.
-# in order to specify c++-latest to cmake, it is needed to set CMAKE_CXX_STANDARD to 23
-# info in issue
-# https://github.com/microsoft/STL/issues/1814#issuecomment-845572895
-if (MSVC)
-    set(CMAKE_CXX_STANDARD 23)
-else()
-    set(CMAKE_CXX_STANDARD 20)
-endif()
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 # download conan.cmake if it is not exists
 # need to check for new versions sometimes
 set(HARDCODED_CONAN_DOT_CMAKE_HASH 3BEF79DA16C2E031DC429E1DAC87A08B9226418B300CE004CC125A82687BAEEF)
@@ -61,6 +50,9 @@ file(REMOVE "${CMAKE_SOURCE_DIR}/cmake/temp_conan_master.cmake")
 include(conan)
 include(utilities)
 
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 # conan_cmake_configure(
 #     REQUIRES 
 #     GENERATORS
@@ -76,6 +68,19 @@ include(utilities)
 #     REMOTE conancenter
 #     SETTINGS ${settings}
 # )
+
+# to have full c++20 with msvc, it is needed to specify c++-latest as standard.
+# in order to specify c++-latest to cmake, it is needed to set CMAKE_CXX_STANDARD to 23
+# info in issue
+# https://github.com/microsoft/STL/issues/1814#issuecomment-845572895
+# also hoping to not break abi, since cxx20 was passed to cmake_install
+# TODO: fix different versions in cmake and conan, eather by switching to VS2022, or
+# waiting for fix from conan side
+if (MSVC)
+    set(CMAKE_CXX_STANDARD 23)
+else()
+    set(CMAKE_CXX_STANDARD 20)
+endif()
 
 # include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
 
