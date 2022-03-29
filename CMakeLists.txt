@@ -53,6 +53,8 @@ include(utilities)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(ENV{CONAN_USER_HOME} ${CMAKE_BINARY_DIR})
+
 # conan_cmake_configure(
 #     REQUIRES 
 #     GENERATORS
