@@ -1,8 +1,8 @@
 #include <iostream>
-#include <google/protobuf/map.h>
+// #include <google/protobuf/map.h>
 
 int main()
 {
     std::cout << "Hello world!" << std::endl;
-    google::protobuf::Map<int, int> a;
+    // google::protobuf::Map<int, int> a;
 }
