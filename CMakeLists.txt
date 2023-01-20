@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.21)
 # insert project name here
-project(sample_project)
+project(c_minecraft_protocol)
 
 # here declared global conan dependencies, or dependencies related only for this project
 # if some dependencies are needed for libraries, that can be considered standalone,
@@ -66,8 +66,10 @@ file(REMOVE "${CMAKE_SOURCE_DIR}/cmake/temp_conan_master.cmake")
 include(conan)
 include(utilities)
 
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# set(CMAKE_CXX_STANDARD 20)
+# set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_C_STANDARD 17)
+set(CMAKE_C_STANDARD_REQUIRED ON)
 
 # How to start downloading dependencies with conan
 # 0. install python3 and conan using pip install conan
@@ -84,22 +86,22 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #       refer to downloaded libraries read conanfile of package
 # as example, protobuf added as dependency and linked to executable
 
-conan_cmake_configure(
-    REQUIRES 
-    protobuf/3.21.9
-    GENERATORS
-    cmake_find_package
-    cmake_paths
-)
+# conan_cmake_configure(
+    # REQUIRES 
+    # # protobuf/3.21.9
+    # GENERATORS
+    # cmake_find_package
+    # cmake_paths
+# )
 
-conan_cmake_autodetect(settings)
+# conan_cmake_autodetect(settings)
 
-conan_cmake_install(
-    PATH_OR_REFERENCE ${CMAKE_BINARY_DIR}/.
-    BUILD missing
-    REMOTE conancenter
-    SETTINGS ${settings}
-)
+# conan_cmake_install(
+    # PATH_OR_REFERENCE ${CMAKE_BINARY_DIR}/.
+    # BUILD missing
+    # REMOTE conancenter
+    # SETTINGS ${settings}
+# )
 
 # to have full c++20 with msvc, it is needed to specify c++-latest as standard.
 # in order to specify c++-latest to cmake, it is needed to set CMAKE_CXX_STANDARD to 23
@@ -108,16 +110,16 @@ conan_cmake_install(
 # also hoping to not break abi, since cxx20 was passed to cmake_install
 # TODO: fix different versions in cmake and conan, eather by switching to VS2022, or
 # waiting for fix from conan side
-if (MSVC)
-    set(CMAKE_CXX_STANDARD 23)
-else()
-    set(CMAKE_CXX_STANDARD 20)
-endif()
+# if (MSVC)
+    # set(CMAKE_CXX_STANDARD 23)
+# else()
+    # set(CMAKE_CXX_STANDARD 20)
+# endif()
 
-include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
+# include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
 
 # find_packages of dependencies here
-find_package(Protobuf)
+# find_package(Protobuf)
 
 # TODO: change this include_directories to include, only what linked
 include_directories(src)
